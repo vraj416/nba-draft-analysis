@@ -27,7 +27,8 @@
             var draftAvgByTeam = d3.nest()
             .key(function(d) { return d.TEAM_ABBREVIATION; })
             .rollup(function(v) { return d3.mean(v, function(d) { return d.DRAFT_NUMBER; }); })
-            .entries(data);
+            .entries(data)
+            .sort((a, b) => d3.descending(a.value, b.value));
 
             console.log(JSON.stringify(draftAvgByTeam));
             console.log(draftAvgByTeam.length);
