@@ -7,7 +7,7 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <body>
-    <svg width="600" height="500"></svg>
+    <svg width="1000" height="500"></svg>
     <script>
         var svg = d3.select("svg"),
         margin = 200,
@@ -31,7 +31,35 @@
 
             console.log(JSON.stringify(draftAvgByTeam));
             console.log(draftAvgByTeam.length);
-        });
+
+            xScale.domain(draftAvgByTeam.map(function(d) { return d.key; }));
+            yScale.domain([0, d3.max(draftAvgByTeam, function(d) { return d.value; })]);
+
+            g.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(xScale));
+
+            g.append("g")
+            .call(d3.axisLeft(yScale).tickFormat(function(d){
+                return d;
+            }).ticks(10))
+            .append("text")
+            .attr("y", 6)
+            .attr("dy", "0.71em")
+            .attr("text-anchor", "end")
+            .text("value");
+
+
+            g.selectAll(".bar")
+            .data(draftAvgByTeam)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function(d) { return xScale(d.key); })
+            .attr("y", function(d) { return yScale(d.value); })
+            .attr("width", xScale.bandwidth())
+            .attr("height", function(d) { return height - yScale(d.value); });
+
+            });
 
     </script>
 </body>
