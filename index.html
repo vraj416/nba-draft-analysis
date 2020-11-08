@@ -24,11 +24,13 @@
         d3.csv("player_info.csv", function(error, data) {
             console.log(data[0]);
 
-            var drafteesByTeam = d3.nest()
-            .key(function(d) { return d.TEAM_ABBREVIATION})
+            var draftAvgByTeam = d3.nest()
+            .key(function(d) { return d.TEAM_ABBREVIATION; })
+            .rollup(function(v) { return d3.mean(v, function(d) { return d.DRAFT_NUMBER; }); })
             .entries(data);
 
-            console.log(drafteesByTeam);
+            console.log(JSON.stringify(draftAvgByTeam));
+            console.log(draftAvgByTeam.length);
         });
 
     </script>

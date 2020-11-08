@@ -17,12 +17,9 @@ head = {'Host': 'stats.nba.com',
 url = 'https://stats.nba.com/stats/leaguedashplayerbiostats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=&GameSegment=&Height=&LastNGames=0&LeagueID=00&Location=&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&Season=2019-20&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&StarterBench=&TeamID=0&VsConference=&VsDivision=&Weight='
 response = requests.get(url, headers=head, timeout=5)
 
-print("hello")
-
 headers = response.json()['resultSets'][0]['headers']
 rows = response.json()['resultSets'][0]['rowSet']
 
 df_player_info = pd.DataFrame(rows, columns=headers)
-
 df_player_info.to_pickle("player_info.pickle")
 
